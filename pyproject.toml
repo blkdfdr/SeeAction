@@ -1,0 +1,14 @@
+[project]
+name = "seeaction"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.9"
+dependencies = [
+    "imutils>=0.5.4",
+    "kivy>=2.3.1",
+    "numpy>=2.0.2",
+    "opencv-python>=4.11.0.86",
+    "scikit-image>=0.24.0",
+    "tensorflow>=2.20.0",
+    "tqdm>=4.67.1",
+]

@@ -104,21 +104,26 @@ def start():
     #cv2.imwrite(os.path.join(crop_path, image_file), crop_image)
     #cv2.imwrite(os.path.join(diffimg_path, image_file), cv2.bitwise_not(diff))
   with open(os.path.join(annotation_path, video + '.txt'), 'w') as annotation_file:
-     annotation_file.writelines(box_list) 
+     annotation_file.writelines(box_list)
+
+q = multiprocessing.Manager().Queue()
+
+def main():
+    video_list = os.listdir(os.path.join(data_dir, 'Images'))
+    exist_list = os.listdir(os.path.join(data_dir, 'Diff_annotations'))
+    for exist in exist_list:
+        if os.path.splitext(exist)[0] in video_list:
+            video_list.remove(os.path.splitext(exist)[0])
+            print('remove ' + os.path.splitext(exist)[0])
+
+    pool = multiprocessing.Pool(5)
+    for video in video_list:
+        q.put(video)
+    qsize = q.qsize()
+    for _ in range(qsize):
+        pool.apply_async(start, ())
+    pool.close()
+    pool.join()
 
 if __name__ == '__main__':
-  video_list = os.listdir(os.path.join(data_dir, 'Images'))
-  exist_list = os.listdir(os.path.join(data_dir, 'Diff_annotations'))
-  for exist in exist_list:
-    if os.path.splitext(exist)[0] in video_list:
-      video_list.remove(os.path.splitext(exist)[0])
-      print ('remove ' + os.path.splitext(exist)[0])
-  q = multiprocessing.Manager().Queue()
-  pool = multiprocessing.Pool(5)
-  for video in video_list:
-    q.put(video)
-  qsize = q.qsize()
-  for _ in range(qsize):
-    pool.apply_async(start, ())
-  pool.close()
-  pool.join()
+  main()
