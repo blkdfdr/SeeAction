@@ -39,9 +39,12 @@ def get_images(file_path):
   crop_list = []
   diff_list = []
   for i in range(_STRIDE):
-    img_path = tf.strings.join([data_dir, 'Images', tf.strings.split(file_path, sep = ' ')[0], tf.strings.split(file_path, sep = ' ')[i + 1]], separator = '/')
-    crop_path = tf.strings.join([data_dir, 'Crop_images', tf.strings.split(file_path, sep = ' ')[0], tf.strings.split(file_path, sep = ' ')[i + 1]], separator = '/')
-    diff_path = tf.strings.join([data_dir, 'Diff_images', tf.strings.split(file_path, sep = ' ')[0], tf.strings.split(file_path, sep = ' ')[i + 1]], separator = '/')
+    parts = tf.strings.split(file_path, sep = ' ')
+    img_name = parts[i + 1]
+    folder = parts[0]
+    img_path = tf.strings.join([tf.strings.as_string(data_dir), tf.constant('Images'), folder, img_name], separator = '/')
+    crop_path = tf.strings.join([tf.strings.as_string(data_dir), tf.constant('Crop_images'), folder, img_name], separator = '/')
+    diff_path = tf.strings.join([tf.strings.as_string(data_dir), tf.constant('Diff_images'), folder, img_name], separator = '/')
     img = tf.io.read_file(img_path)
     img_crop = tf.io.read_file(crop_path)
     img_diff = tf.io.read_file(diff_path)
