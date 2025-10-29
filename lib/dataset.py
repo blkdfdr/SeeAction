@@ -39,12 +39,9 @@ def get_images(file_path):
   crop_list = []
   diff_list = []
   for i in range(_STRIDE):
-    parts = tf.strings.split(file_path, sep = ' ')
-    img_name = parts[i + 1]
-    folder = parts[0]
-    img_path = tf.strings.join([tf.strings.as_string(data_dir), tf.constant('Images'), folder, img_name], separator = '/')
-    crop_path = tf.strings.join([tf.strings.as_string(data_dir), tf.constant('Crop_images'), folder, img_name], separator = '/')
-    diff_path = tf.strings.join([tf.strings.as_string(data_dir), tf.constant('Diff_images'), folder, img_name], separator = '/')
+    img_path = tf.strings.join([data_dir, 'Images', tf.strings.split(file_path, sep = ' ')[0], tf.strings.split(file_path, sep = ' ')[i + 1]], separator = '/')
+    crop_path = tf.strings.join([data_dir, 'Crop_images', tf.strings.split(file_path, sep = ' ')[0], tf.strings.split(file_path, sep = ' ')[i + 1]], separator = '/')
+    diff_path = tf.strings.join([data_dir, 'Diff_images', tf.strings.split(file_path, sep = ' ')[0], tf.strings.split(file_path, sep = ' ')[i + 1]], separator = '/')
     img = tf.io.read_file(img_path)
     img_crop = tf.io.read_file(crop_path)
     img_diff = tf.io.read_file(diff_path)
@@ -80,7 +77,7 @@ def process_label(file_path):
     raise NameError(model_name)
 
 def configure_for_performance(ds, name):
-  ds = ds.cache('data/cache/' + model_name + '_' + val_name + '/' + name)
+  ds = ds.cache(os.path.join(data_dir, 'cache', model_name + '_' + val_name, name))
   ds = ds.shuffle(buffer_size=1000)
   ds = ds.batch(batch_size)
   ds = ds.prefetch(buffer_size=tf.data.experimental.AUTOTUNE)

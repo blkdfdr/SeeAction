@@ -20,11 +20,12 @@ val_name = 'zoom'
 val_name = 'photoshop'
 val_name = 'all'
 '''
+import os
 
-data_dir = '/home/cheer/Project/VideoCaptioning/data'
+data_dir = os.environ.get("DATA_DIR",print("No DATA_DIR defined in env"))
 
 epochs = 10
 
 model_name = 'all'
 channel_name = 'all'
-val_name = 'photoshop'
+val_name = 'all'

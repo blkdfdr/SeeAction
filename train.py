@@ -8,6 +8,7 @@ import os
 from lib import dataset
 from lib.net import VCModel
 import config
+import pathlib
 
 '''
 model_name = 'verb_only'
@@ -21,6 +22,7 @@ epochs = config.epochs
 model_name = config.model_name
 val_name = config.val_name
 channel_name = config.channel_name
+data_dir = config.data_dir
 if val_name == '[0-9]':
   val_name = 'firefox'
 if val_name == '[0-9]_t':
@@ -53,9 +55,11 @@ def main():
   else:
     raise NameError(model_name)
 
+  model_path = pathlib.Path(data_dir, "model", model_name + '_' + channel_name + '_' + val_name, "VCModel")
+
   callbacks = [
     keras.callbacks.ModelCheckpoint(
-      filepath='data/model/' + model_name + '_' + channel_name + '_' + val_name + '/VCModel',
+      filepath= model_path,
       save_weights_only=True,
       save_best_only=True,
       monitor=monitor,
@@ -64,10 +68,8 @@ def main():
       keras.callbacks.TensorBoard(
         log_dir='logs/' + model_name + '_' + channel_name + '_' + val_name),
       ]
-
-  if os.path.exists(os.path.join('data', 'model', model_name + '_' + channel_name + '_' + val_name)):
-    model.load_weights('data/model/' + model_name + '_' + channel_name + '_' + val_name + '/VCModel')
-
+  if model_path.exists():
+    model.load_weights(model_path)
   history = model.fit(
     train_dataset,
     validation_data=val_dataset,
