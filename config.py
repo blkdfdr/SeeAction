@@ -21,8 +21,10 @@ val_name = 'photoshop'
 val_name = 'all'
 '''
 import os
-
-data_dir = os.environ.get("DATA_DIR",print("No DATA_DIR defined in env"))
+try:
+    data_dir = os.environ["DATA_DIR"]
+except KeyError:
+    print("No DATA_DIR defined in env")
 
 epochs = 10
 

@@ -15,7 +15,7 @@ channel_name = config.channel_name
 class Encoder_3D(Model):
   def __init__(self, layer_name):
     super(Encoder_3D, self).__init__()
-    self.rescale = layers.experimental.preprocessing.Rescaling(1./255)
+    self.rescale = layers.Rescaling(1./255)
     self.conv1 = Conv3D(16, 3, padding = 'same', activation='relu', input_shape = (8, 224, 224, 3), name = layer_name + 'conv1')
     self.conv2 = Conv3D(32, 3, padding = 'same', activation='relu', name = layer_name + 'conv2')
     self.conv3 = Conv3D(64, 3, padding = 'same', activation='relu', name = layer_name + 'conv3')
@@ -45,7 +45,7 @@ class Encoder_3D(Model):
 class Encoder_1D(Model):
   def __init__(self, layer_name):
     super(Encoder_1D, self).__init__()
-    self.rescale = layers.experimental.preprocessing.Rescaling(1./255)
+    self.rescale = layers.Rescaling(1./255)
     self.conv1 = Conv3D(16, 3, padding = 'same', activation='relu', input_shape = (8, 224, 224, 1), name = layer_name + 'conv1')
     self.conv2 = Conv3D(32, 3, padding = 'same', activation='relu', name = layer_name + 'conv2')
     self.conv3 = Conv3D(64, 3, padding = 'same', activation='relu', name = layer_name + 'conv3')

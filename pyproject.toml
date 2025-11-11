@@ -2,13 +2,12 @@
 name = "seeaction"
 version = "0.1.0"
 description = "Add your description here"
-requires-python = "==3.11.14"
+requires-python = ">=3.12"
 dependencies = [
     "imutils>=0.5.4",
     "kivy>=2.3.1",
     "numpy",
     "opencv-python",
     "scikit-image",
-    "tensorflow==2.13.1",
     "tqdm",
 ]
