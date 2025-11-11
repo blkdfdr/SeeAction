@@ -1,0 +1,8 @@
+/data/
+/.venv
+/Images/
+/Video_Recorded/
+/.idea/
+/uv.lock
+/__pycache__/
+/lib/__pycache__/
